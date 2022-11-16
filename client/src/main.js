@@ -1,5 +1,6 @@
 import { createApp } from "vue"
 import "./index.css"
+import router from "./router/index"
 import App from "./App.vue"
 
 import { library } from "@fortawesome/fontawesome-svg-core"
@@ -16,5 +17,6 @@ library.add(faCartShopping, faCaretDown, faCirclePlus, faCircleMinus)
 
 const app = createApp(App)
 app.component("FontAwesomeIcon", FontAwesomeIcon)
+app.use(router)
 
 app.mount("#app")
