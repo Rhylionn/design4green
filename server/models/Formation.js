@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require("../core/database")
 
 const formationSchema = mongoose.Schema(
   {
