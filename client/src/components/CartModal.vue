@@ -8,7 +8,7 @@
         <Transition name="modal-inner">
           <div
             v-if="modalActive"
-            class="p-4 w-4/5 bg-white self-start mt-32 max-w-screen-md flex items-center justify-center flex-col border-2 border-black rounded-md z-50"
+            class="p-4 w-full bg-white self-start mt-32 max-w-screen-md flex items-center justify-center flex-col border-2 border-black rounded-md z-50"
           >
             <slot />
             <button

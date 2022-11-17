@@ -13,28 +13,30 @@
     </button>
 
     <CartModal :modalActive="modalActive" @close-modal="toggleModal" :cart="cart">
-      <div class="flex justify-between items-center w-full gap-10">
-        <button class="text-white mt-8 p-2 bg-space-cadet rounded-lg cursor-pointer border-2 border-space-cadet hover:bg-black-coral">Demander un devis par mail</button>
-        <button class="text-white mt-8 p-2 bg-space-cadet rounded-lg cursor-pointer border-2 border-space-cadet hover:bg-black-coral">Exporter en PDF</button>
+      <div class="text-xs sm:text-sm md:text-base flex justify-between items-center w-4/5">
+        <button class="text-white mt-8 h-16 sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral">Demander un devis par mail</button>
+        <button class="text-white mt-8 h-16 sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral">Exporter en PDF</button>
       </div>
-        <p v-if="cartContent()">Votre panier est vide !</p>
-        <table v-if="!cartContent()" class="text-center mt-5 w-4/5 m-auto">
-          <thead class="border-2 border-space-cadet">
+        <p class="mt-5" v-if="cartContent()">Votre panier est vide !</p>
+        <table v-if="!cartContent()" class="m-2 text-xs md:text-base w-4/5">
+          <thead class="p-2 border-2 border-space-cadet">
             <tr>
-              <th class="p-2 border-r-2 border-space-cadet">Intitulé</th>
-              <th class="p-2 border-r-2 border-space-cadet">Type</th>
-              <th class="p-2 border-r-2 border-space-cadet">Structure</th>
-              <th class="p-2 border-r-2 border-space-cadet">Durée</th>
-              <th class="p-2">Emplacement</th>
+              <th class="p-2 border-2 border-space-cadet ">Intitulé</th>
+              <th class="p-2 border-2 border-space-cadet hidden md:table-cell">Type</th>
+              <th class="p-2 border-2 border-space-cadet hidden md:table-cell">Structure</th>
+              <th class="p-2 border-2 border-space-cadet hidden md:table-cell">Durée</th>
+              <th class="p-2 border-2 border-space-cadet hidden lg:table-cell">Emplacement</th>
+              <th class="p-2 border-2 border-space-cadet ">Supprimer la formation</th>
             </tr>
           </thead>
-          <tbody v-for="formation in cart" class="border-2 border-space-cadet">
+          <tbody v-for="formation in cart" class="p-2 border-2 border-space-cadet text-center">
             <tr>
-              <td class="p-2 border-r-2 border-space-cadet">{{formation.formationName}}</td>
-              <td class="p-2 border-r-2 border-space-cadet">{{formation.typeFormation}}</td>
-              <td class="p-2 border-r-2 border-space-cadet">{{formation.Structure}}</td>
-              <td class="p-2 border-r-2 border-space-cadet">{{formation.duration}}</td>
-              <td class="p-2">{{formation.structLoc}}</td>
+              <td class="p-2 border-2 border-space-cadet ">{{formation.formationName}}</td>
+              <td class="p-2 border-2 border-space-cadet hidden md:table-cell">{{formation.typeFormation}}</td>
+              <td class="p-2 border-2 border-space-cadet hidden md:table-cell">{{formation.Structure}}</td>
+              <td class="p-2 border-2 border-space-cadet hidden md:table-cell">{{formation.duration}}</td>
+              <td class="p-2 border-2 border-space-cadet hidden lg:table-cell">{{formation.structLoc}}</td>
+              <td class="p-2 border-2 border-space-cadet hover:bg-orange cursor-pointer" @click="deleteFormation(formation)">Supprimer</td>
             </tr>
           </tbody>
         </table>
@@ -68,13 +70,7 @@ export default {
     const toggleModal = () => {
       modalActive.value = !modalActive.value
     }
-    function afficherListe(){
-      let currentCart = []
-      for(let i;i<cart.value.length;i++){
-        currentCart.push(cart.value[i])
-      }
-      return currentCart
-    }
+
     function cartContent(){
       if(cart.value.length==0){
         emptyCart.value = true
@@ -83,7 +79,12 @@ export default {
       }
       return emptyCart.value
     }
-    return { modalActive, toggleModal, cart, afficherListe, cartContent}
+
+    function deleteFormation(formation) {
+        cart.value.splice(cart.value.indexOf(formation), 1)
+    }
+
+    return { modalActive, toggleModal, cart, cartContent, deleteFormation}
     
     
   },
