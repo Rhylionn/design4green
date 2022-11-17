@@ -26,6 +26,19 @@ export default {
 
     const cart = ref([])
 
+    const itemPerPages = 10
+    let currentPage = ref(0)
+
+    onBeforeMount(() => {
+      formations.value = props.formations
+    })
+
+    const currentPageFormations = computed(() => {
+      let start = currentPage.value * itemPerPages
+      let end = start + itemPerPages
+      return filteredFormations.value.slice(start, end)
+    })
+
     const filteredFormations = computed(() => {
       return formations.value.filter((formation) => {
         if (
@@ -36,6 +49,8 @@ export default {
           typeof inputBorneInf.value != "undefined" ||
           typeof inputBorneSup.value != "undefined"
         ) {
+          currentPage.value = 0
+
           return formation.hasOwnProperty("formationName") &&
             formation.formationName
               .toLowerCase()
@@ -60,14 +75,23 @@ export default {
       })
     })
 
-    onBeforeMount(() => {
-      formations.value = props.formations
-    })
+    function pageUp() {
+      let maxPage = Math.ceil(filteredFormations.value.length / itemPerPages)
+      if (currentPage.value < maxPage - 1) {
+        currentPage.value++
+      }
+    }
+
+    function pageDown() {
+      if (currentPage.value > 0) {
+        currentPage.value--
+      }
+    }
 
     function manageCart(disp) {
       if (cart.value.includes(disp)) {
-        const index = cart.indexOf(disp)
-        cart.splice(index, 1)
+        const index = cart.value.indexOf(disp)
+        cart.value.splice(index, 1)
       } else {
         cart.value.push(disp)
       }
@@ -82,6 +106,11 @@ export default {
       inputBorneInf,
       inputBorneSup,
       manageCart,
+      cart,
+      currentPageFormations,
+      currentPage,
+      pageUp,
+      pageDown,
     }
   },
 }
@@ -161,10 +190,16 @@ export default {
     <MapFormations :formations="filteredFormations" />
 
     <FormationCard
-      v-for="(formation, index) in filteredFormations"
+      v-for="(formation, index) in currentPageFormations"
       :key="index"
       :formation="formation"
+      :cart="cart"
       @manageCart="manageCart(formation)"
     />
+
+    <div>
+      <button @click="pageDown()">-</button>
+      <button @click="pageUp()">+</button>
+    </div>
   </main>
 </template>
