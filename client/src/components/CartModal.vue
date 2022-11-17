@@ -2,7 +2,7 @@
   <Teleport to="body">
     <Transition name="modal-outer">
       <div
-				v-show="modalActive"
+        v-show="modalActive"
         @keydown.esc="$emit('close-modal')"
         @wheel.prevent
         @touchmove.prevent
@@ -18,7 +18,8 @@
             <button
               aria-label="Fermer"
               class="text-white mt-8 p-2 bg-space-cadet rounded-lg cursor-pointer border-2 border-space-cadet hover:bg-black-coral"
-              @click="$emit('close-modal')" @keypress.enter="$emit('close-modal')"
+              @click="$emit('close-modal')"
+              @keypress.enter="$emit('close-modal')"
             >
               Fermer
             </button>
@@ -30,9 +31,11 @@
 </template>
 
 <script>
+import { useFormationStore } from "../stores/formations"
+
 export default {
   name: "CartModal",
-  emits: ['close-modal'],
+  emits: ["close-modal"],
   props: {
     modalActive: {
       type: Boolean,
@@ -40,25 +43,18 @@ export default {
         return false
       },
     },
-    cart: {
-      type : Array,
-      default(){
-        return []
-      }
-    }
   },
-  setup(props, { emit }) {
-    let cart = props.cart
-    console.log(cart)
+  setup(_, { emit }) {
     const close = () => {
       emit("close-modal")
     }
-    return { close, cart }
+
+    return { close }
   },
 }
 </script>
 
-<style scoped> 
+<style scoped>
 .modal-outer-enter-active,
 .modal-outer-leave-active {
   transition: opacity 0.3s cubic-bezier(0.52, 0.02, 0.19, 1.02);
