@@ -13,7 +13,7 @@
       >
         <div
           class="cursor-pointer border-r-2 h-16 w-16 flex justify-center items-center border-space-cadet"
-          @click="select()"
+          @click="select(), $emit('manageCart', disp)"
           :class="{
             'border-white': isHidden,
             'bg-space-cadet text-white': isSelected && !isHidden,
@@ -67,9 +67,7 @@
 </template>
 
 <script>
-import { remove } from "@vue/shared"
 import { ref } from "vue"
-import { cart } from "../App.vue"
 
 export default {
   name: "FormationCard",
@@ -92,21 +90,6 @@ export default {
 
     function select() {
       isSelected.value = !isSelected.value
-      if (cart.value.includes(disp)) {
-        removeFromCart(disp)
-      } else {
-        addToCart()
-      }
-      console.table(cart.value)
-    }
-
-    function addToCart() {
-      cart.value.push(disp)
-    }
-
-    function removeFromCart(disp) {
-      const index = cart.indexOf(disp)
-      cart.splice(index, 1)
     }
 
     return {

@@ -31,6 +31,8 @@ export default {
     const inputBorneInf = ref()
     const inputBorneSup = ref()
 
+    const cart = ref([])
+
     const filteredFormations = computed(() => {
       return formations.value.filter((formation) => {
         if (
@@ -69,6 +71,17 @@ export default {
       formations.value = props.formations
     })
 
+    function manageCart(disp) {
+      if (cart.value.includes(disp)) {
+        const index = cart.indexOf(disp)
+        cart.splice(index, 1)
+      } else {
+        cart.value.push(disp)
+      }
+
+      console.log(cart.value)
+    }
+
     return {
       filteredFormations,
       filterByText,
@@ -77,6 +90,8 @@ export default {
       inputAccess,
       inputBorneInf,
       inputBorneSup,
+      cart,
+      manageCart,
     }
   },
 }
@@ -159,6 +174,7 @@ export default {
       v-for="(formation, index) in filteredFormations"
       :key="index"
       :formation="formation"
+      @manageCart="manageCart(formation)"
     />
 
     <FooterInformation />
