@@ -1,11 +1,13 @@
 <template>
-  <div id="mapid" class="min-h-screen min-w-full"></div>
+  <div id="mapid" class="h-80 min-w-full"></div>
 </template>
 
 <script>
-import { onBeforeMount, onMounted, toHandlers } from "vue"
+import { onMounted, onUpdated } from "vue"
 import "leaflet/dist/leaflet.css"
-import L from "leaflet"
+import leaflet from "leaflet"
+
+import leafletIconUrl from "../assets/location-pin.svg"
 
 export default {
   name: "MapFormations",
@@ -20,11 +22,22 @@ export default {
   setup(props) {
     let map
     let formations = props.formations
+		let layerGroup
+
+		const myIcon = L.icon({iconUrl: leafletIconUrl, iconSize: [19, 47.5]})
+
 
     onMounted(() => {
       loadMap()
+			initLayerGroup()
       mark()
     })
+
+		onUpdated(() => {
+			layerGroup.clearLayers()
+			formations = props.formations
+			mark()
+		})
 
     function mark() {
       formations.forEach((formation) => {
@@ -38,15 +51,22 @@ export default {
       map = L.map("mapid", {
         attributionControl: false,
       }).setView([46.2276, 2.2137], 6)
+
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         minZoom: 6,
       }).addTo(map)
     }
 
+		function initLayerGroup() {
+			layerGroup = L.layerGroup()
+			map.addLayer(layerGroup)
+			return layerGroup
+		}
+
     function addMarker(formation) {
-      let marker = L.marker(formation.structCoords)
+      let marker = L.marker(formation.structCoords, {icon: myIcon})
       marker.bindPopup(formation.formationName)
-      marker.addTo(map)
+      layerGroup.addLayer(marker)
     }
   },
 }
