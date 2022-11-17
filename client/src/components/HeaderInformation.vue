@@ -1,19 +1,19 @@
 <template>
   <header
-    class="text-center p-3 bg-cyan-900 h-20 flex justify-between items-center"
+    class="text-center p-3 bg-cyan-900 items-center flex flex-col"
   >
-    <p class="text-white">-=[ ARTI'CHAUD ]=-</p>
-    <h1 class="text-white text-4xl font-inter">Choix des formations</h1>
-    <div></div>
+    <p class="text-white text-2xl">Equipe 15</p>
+    <h1 class="text-white text-5xl">Choix des formations</h1>
 
     <button
-        class="relative right-3 z-20 h-8 w-32 top-6 rounded-lg bg-white text-black text-2xl flex items-center justify-center hover:bg-emerald-600 duration-150 cursor-pointer"
+      aria-labe="Basket"
+      class="my-2.5 h-8 w-32 rounded-lg bg-slate-400 text-black text-2xl flex items-center justify-center hover:bg-emerald-500 cursor-pointer"
       @click="toggleModal"
     >
-    <FontAwesomeIcon icon="fa-cart-shopping" class="pr-2.5" />
+      <FontAwesomeIcon icon="fa-cart-shopping" class="pr-2.5" />
       Backet
     </button>
-    
+
     <BaseModal :modalActive="modalActive" @close-modal="toggleModal">
       <div class="text-black">
         <h1 class="text-2xl mb-1">About:</h1>
@@ -45,7 +45,6 @@
       </div>
     </BaseModal>
   </header>
-  
 </template>
 
 <script>

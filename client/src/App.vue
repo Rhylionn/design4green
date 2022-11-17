@@ -3,7 +3,7 @@
     <HeaderInformation />
 
     <body>
-      <p></p>
+      <p>Something to say here</p>
     </body>
 
     <FooterInformation />

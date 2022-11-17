@@ -8,11 +8,11 @@
         <Transition name="modal-inner">
           <div
             v-if="modalActive"
-            class="p-4 bg-white self-start mt-32 max-w-screen-md"
+            class="p-4 bg-white self-start mt-32 max-w-screen-md flex items-center justify-center flex-col border-2 border-black rounded-md"
           >
             <slot />
-            <button
-              class="text-white mt-8 bg-sky-800 py-2 px-6"
+            <button aria-label="Fermer"
+              class="text-white mt-8 bg-sky-800 py-2 px-6  hover:bg-amber-600 rounded-sm cursor-pointer border-2 border-black"
               @click="$emit('close-modal')"
             >
               Fermer
