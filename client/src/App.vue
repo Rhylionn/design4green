@@ -3,18 +3,16 @@
 </template>
 
 <script>
-import { ref, onBeforeMount } from "vue"
+import { ref, onBeforeMount } from "vue";
 
 export default {
+  name: "App",
   setup() {
-    const formations = ref([])
+    const formations = ref([]);
 
-    async function fetchFormations() {
-      const endpoint = `${import.meta.env.VITE_API_URL}/formations`
-
-      const response = await fetch(endpoint)
-      return response.json()
-    }
+    onBeforeMount(async () => {
+      formations.value = await getFormations();
+    });
 
     async function getFormations() {
       let formationsRequest
@@ -27,13 +25,20 @@ export default {
 
       return formationsRequest
     }
+    
+    // Fonction séparée pour fetch les formations
+    async function fetchFormations() {
+      const endpoint = `${import.meta.env.VITE_API_URL}/formations`;
+
+      const response = await fetch(endpoint);
+      return response.json();
+    }
 
     onBeforeMount(async () => {
       formations.value = await getFormations()
-      console.log(formations.value)
     })
 
     return { formations }
   },
-}
+};
 </script>
