@@ -1,5 +1,5 @@
 <template>
-  <div id="mapid" class="h-full"></div>
+  <div id="mapid" class="h-full z-0"></div>
 </template>
 
 <script>
@@ -22,26 +22,21 @@ export default {
   setup(props) {
     let map
     let formations = props.formations
-		let layerGroup
+    let layerGroup
 
-		const myIcon = L.icon({iconUrl: leafletIconUrl, iconSize: [19, 47.5]})
-
+    const myIcon = L.icon({ iconUrl: leafletIconUrl, iconSize: [19, 47.5] })
 
     onMounted(() => {
       loadMap()
-			initLayerGroup()
+      initLayerGroup()
       mark()
     })
 
-		onBeforeMount(() => {
-			console.log("before mount")
-		})
-
-		onUpdated(() => {
-			layerGroup.clearLayers()
-			formations = props.formations
-			mark()
-		})
+    onUpdated(() => {
+      layerGroup.clearLayers()
+      formations = props.formations
+      mark()
+    })
 
     function mark() {
       formations.forEach((formation) => {
@@ -61,14 +56,14 @@ export default {
       }).addTo(map)
     }
 
-		function initLayerGroup() {
-			layerGroup = L.layerGroup()
-			map.addLayer(layerGroup)
-			return layerGroup
-		}
+    function initLayerGroup() {
+      layerGroup = L.layerGroup()
+      map.addLayer(layerGroup)
+      return layerGroup
+    }
 
     function addMarker(formation) {
-      let marker = L.marker(formation.structCoords, {icon: myIcon})
+      let marker = L.marker(formation.structCoords, { icon: myIcon })
       marker.bindPopup(formation.formationName)
       layerGroup.addLayer(marker)
     }

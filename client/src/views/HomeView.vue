@@ -3,7 +3,6 @@ import { ref, onBeforeMount, computed, defineAsyncComponent } from "vue"
 
 import HeaderInformation from "../components/HeaderInformation.vue"
 import FormationCard from "../components/FormationCard.vue"
-import FooterInformation from "../components/FooterInformation.vue"
 
 const MapFormations = defineAsyncComponent({
 	loader: () => import('../components/MapFormations.vue')
@@ -15,15 +14,9 @@ export default {
     HeaderInformation,
     MapFormations,
     FormationCard,
-    FooterInformation,
   },
   props: {
-    formations: {
-      type: Array,
-      default() {
-        return []
-      },
-    },
+    formations: Array,
   },
   setup(props) {
     const formations = ref([])
@@ -33,6 +26,7 @@ export default {
     const inputAccess = ref("")
     const inputBorneInf = ref(0)
     const inputBorneSup = ref(58)
+
 		const maploaded = ref(false)
 
     const cart = ref([])
@@ -82,8 +76,6 @@ export default {
       } else {
         cart.value.push(disp)
       }
-
-      console.log(cart.value)
     }
 
     return {
@@ -94,7 +86,6 @@ export default {
       inputAccess,
       inputBorneInf,
       inputBorneSup,
-      cart,
       manageCart,
 			maploaded
     }
