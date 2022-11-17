@@ -10,9 +10,10 @@ import {
   faCaretDown,
   faCirclePlus,
   faCircleMinus,
+  faCaretUp
 } from "@fortawesome/free-solid-svg-icons"
 
-library.add(faCartShopping, faCaretDown, faCirclePlus, faCircleMinus)
+library.add(faCartShopping, faCaretDown, faCirclePlus, faCircleMinus, faCaretUp)
 
 const app = createApp(App)
 app.component("FontAwesomeIcon", FontAwesomeIcon)
