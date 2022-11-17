@@ -1,16 +1,32 @@
 <template>
-  <header class="text-center p-3 bg-cyan-900 items-center flex flex-col">
+  <header class="p-3 bg-cyan-900 text-center items-center flex justify-between">
+    <!-- </header>:class="isDark ? 'dark dark:bg-black' : ''"-->
     <p class="text-white text-2xl">Equipe 15</p>
     <h1 class="text-white text-5xl">Choix des formations</h1>
 
-    <button
-      aria-labe="Basket"
-      class="my-2.5 h-8 w-32 rounded-lg bg-slate-400 text-black text-2xl flex items-center justify-center hover:bg-emerald-500 cursor-pointer"
-      @click="toggleModal"
-    >
-      <FontAwesomeIcon icon="fa-cart-shopping" class="pr-2.5" />
-      Backet
-    </button>
+    <div class="flex justify-end">
+      <button
+        aria-labe="Basket"
+        class="my-2.5 h-8 w-32 rounded-lg bg-slate-400 text-black text-2xl flex items-center justify-center hover:bg-emerald-500 cursor-pointer"
+        @click="toggleModal"
+      >
+        <FontAwesomeIcon icon="fa-cart-shopping" class="pr-2.5" />
+        Panier
+      </button>
+
+      <button href="" class="py-2 px-2 mb-2.5" @click="$emit('enableDark')">
+        <FontAwesomeIcon
+          v-show="isDark"
+          icon="fa-moon"
+          class="py-1 px-1 h-8 w-8 hidden lg:flex md:flex"
+        />
+        <FontAwesomeIcon
+        v-show="!isDark"
+          icon="fa-sun"
+          class="py-1 px-1 h-8 w-8 hidden lg:flex md:flex"
+        />
+      </button>
+    </div>
 
     <CartModal :modalActive="modalActive" @close-modal="toggleModal">
       <div class="text-black">
@@ -46,21 +62,31 @@
 </template>
 
 <script>
-import { ref } from "vue"
-import CartModal from "./CartModal.vue"
+import { ref } from "vue";
+import CartModal from "./CartModal.vue";
 
 export default {
   name: "HeaderInformation",
   components: {
     CartModal,
   },
-  setup() {
-    const modalActive = ref(null)
-    const toggleModal = () => {
-      modalActive.value = !modalActive.value
-    }
-
-    return { modalActive, toggleModal }
+  props: {
+    enableDark: {
+      type: Boolean,
+      default() {
+        return false;
+      },
+    },
   },
-}
+  setup(props) {
+    const modalActive = ref(null);
+    const toggleModal = () => {
+      modalActive.value = !modalActive.value;
+    };
+
+    const isDark = ref(props.enableDark);
+    
+    return { modalActive, toggleModal, isDark };
+  },
+};
 </script>
