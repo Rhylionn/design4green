@@ -1,29 +1,12 @@
 <template>
-  <div>
-    <HeaderInformation />
-
-    <body>
-      <p>Something to say here</p>
-    </body>
-
-    <FooterInformation />
-  </div>
+  <RouterView :formations="formations" />
 </template>
 
 <script>
 import { ref, onBeforeMount } from "vue";
-import FooterInformation from "./components/FooterInformation.vue";
-import HeaderInformation from "./components/HeaderInformation.vue";
-//import BaseModal from "./components/BaseModal.vue";
 
 export default {
   name: "App",
-  components: {
-    FooterInformation,
-    HeaderInformation,
-    //BaseModal,
-  },
-
   setup() {
     const formations = ref([]);
 
@@ -31,17 +14,18 @@ export default {
       formations.value = await getFormations();
     });
 
-    // Récupère les formations soit par le localStorage soit en fetchant l’API
     async function getFormations() {
-      let formations;
+      let formationsRequest
       if (localStorage.getItem("formations") === null) {
-        formations = await fetchFormations();
-        localStorage.setItem("formations", JSON.stringify(formations));
+        formationsRequest = await fetchFormations()
+        localStorage.setItem("formations", JSON.stringify(formationsRequest))
       } else {
-        formations = JSON.parse(localStorage.getItem("formations"));
+        formationsRequest = JSON.parse(localStorage.getItem("formations"))
       }
-      return formations;
+
+      return formationsRequest
     }
+    
     // Fonction séparée pour fetch les formations
     async function fetchFormations() {
       const endpoint = `${import.meta.env.VITE_API_URL}/formations`;
@@ -49,6 +33,12 @@ export default {
       const response = await fetch(endpoint);
       return response.json();
     }
+
+    onBeforeMount(async () => {
+      formations.value = await getFormations()
+    })
+
+    return { formations }
   },
 };
 </script>
