@@ -1,9 +1,9 @@
 <template>
-  <div id="mapid" class="h-80 min-w-full"></div>
+  <div id="mapid" class="h-full z-0"></div>
 </template>
 
 <script>
-import { onMounted, onUpdated } from "vue"
+import { onBeforeMount, onMounted, onUpdated } from "vue"
 import "leaflet/dist/leaflet.css"
 import leaflet from "leaflet"
 
@@ -22,22 +22,21 @@ export default {
   setup(props) {
     let map
     let formations = props.formations
-		let layerGroup
+    let layerGroup
 
-		const myIcon = L.icon({iconUrl: leafletIconUrl, iconSize: [19, 47.5]})
-
+    const myIcon = L.icon({ iconUrl: leafletIconUrl, iconSize: [19, 47.5] })
 
     onMounted(() => {
       loadMap()
-			initLayerGroup()
+      initLayerGroup()
       mark()
     })
 
-		onUpdated(() => {
-			layerGroup.clearLayers()
-			formations = props.formations
-			mark()
-		})
+    onUpdated(() => {
+      layerGroup.clearLayers()
+      formations = props.formations
+      mark()
+    })
 
     function mark() {
       formations.forEach((formation) => {
@@ -57,14 +56,14 @@ export default {
       }).addTo(map)
     }
 
-		function initLayerGroup() {
-			layerGroup = L.layerGroup()
-			map.addLayer(layerGroup)
-			return layerGroup
-		}
+    function initLayerGroup() {
+      layerGroup = L.layerGroup()
+      map.addLayer(layerGroup)
+      return layerGroup
+    }
 
     function addMarker(formation) {
-      let marker = L.marker(formation.structCoords, {icon: myIcon})
+      let marker = L.marker(formation.structCoords, { icon: myIcon })
       marker.bindPopup(formation.formationName)
       layerGroup.addLayer(marker)
     }

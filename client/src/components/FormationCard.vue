@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { ref } from "vue"
+import { ref, onBeforeMount, onUpdated } from "vue"
 
 export default {
   name: "FormationCard",
@@ -78,15 +78,37 @@ export default {
         return {}
       },
     },
+    cart: Array,
   },
   setup(props) {
-    const disp = props.formation
+    const disp = ref(props.formation)
+    const cart = ref(props.cart)
+
     const isHidden = ref(false)
     const isSelected = ref(false)
 
     function toggle() {
       isHidden.value = !isHidden.value
     }
+
+    onBeforeMount(() => {
+      refreshFormaton()
+    })
+
+    function refreshFormaton() {
+      isSelected.value =
+        cart.value.find((formation) => formation._id == disp.value._id) != null
+          ? true
+          : false
+    }
+
+    onUpdated(() => {
+      disp.value = props.formation
+      cart.value = props.cart
+
+      refreshFormaton()
+      console.log("update fired")
+    })
 
     function select() {
       isSelected.value = !isSelected.value
