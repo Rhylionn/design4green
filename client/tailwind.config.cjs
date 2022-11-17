@@ -4,15 +4,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        midnight: "#130F40",
-        zinc: {
-          900: "#18181b",
-        },
-        slate: {
-          800: "#1e293b",
-          900: "#0f172a",
-        },
-      },
+        'space-cadet' : '#2D3142',
+        'silver' : '#BFC0C0',
+        'white' : '#FFFFFF',
+        'orange' : '#EF8354',
+        'black-coral' : '#4F5D75'
+      }
     },
   },
   plugins: [],
