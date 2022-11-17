@@ -1,9 +1,9 @@
 <template>
-  <div id="mapid" class="h-80 "></div>
+  <div id="mapid" class="h-full"></div>
 </template>
 
 <script>
-import { onMounted, onUpdated } from "vue"
+import { onBeforeMount, onMounted, onUpdated } from "vue"
 import "leaflet/dist/leaflet.css"
 import leaflet from "leaflet"
 
@@ -32,6 +32,10 @@ export default {
 			initLayerGroup()
       mark()
     })
+
+		onBeforeMount(() => {
+			console.log("before mount")
+		})
 
 		onUpdated(() => {
 			layerGroup.clearLayers()
