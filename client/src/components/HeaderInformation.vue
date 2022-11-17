@@ -1,7 +1,5 @@
 <template>
-  <header
-    class="text-center p-3 bg-cyan-900 items-center flex flex-col"
-  >
+  <header class="text-center p-3 bg-cyan-900 items-center flex flex-col">
     <p class="text-white text-2xl">Equipe 15</p>
     <h1 class="text-white text-5xl">Choix des formations</h1>
 
@@ -14,7 +12,7 @@
       Backet
     </button>
 
-    <BaseModal :modalActive="modalActive" @close-modal="toggleModal">
+    <CartModal :modalActive="modalActive" @close-modal="toggleModal">
       <div class="text-black">
         <h1 class="text-2xl mb-1">About:</h1>
         <p class="mb-4">
@@ -43,26 +41,26 @@
           delete the city.
         </p>
       </div>
-    </BaseModal>
+    </CartModal>
   </header>
 </template>
 
 <script>
-import { ref } from "vue";
-import BaseModal from "./BaseModal.vue";
+import { ref } from "vue"
+import CartModal from "./CartModal.vue"
 
 export default {
   name: "HeaderInformation",
   components: {
-    BaseModal,
+    CartModal,
   },
   setup() {
-    const modalActive = ref(null);
+    const modalActive = ref(null)
     const toggleModal = () => {
-      modalActive.value = !modalActive.value;
-    };
+      modalActive.value = !modalActive.value
+    }
 
-    return { modalActive, toggleModal };
+    return { modalActive, toggleModal }
   },
-};
+}
 </script>
