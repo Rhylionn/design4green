@@ -4,7 +4,6 @@ import { ref, onBeforeMount, computed } from "vue"
 import HeaderInformation from "../components/HeaderInformation.vue"
 import MapFormations from "../components/MapFormations.vue"
 import FormationCard from "../components/FormationCard.vue"
-import FooterInformation from "../components/FooterInformation.vue"
 
 export default {
   name: "HomeView",
@@ -12,15 +11,9 @@ export default {
     HeaderInformation,
     MapFormations,
     FormationCard,
-    FooterInformation,
   },
   props: {
-    formations: {
-      type: Array,
-      default() {
-        return []
-      },
-    },
+    formations: Array,
   },
   setup(props) {
     const formations = ref([])
@@ -28,8 +21,8 @@ export default {
     const inputFormationType = ref("")
     const inputStructure = ref("")
     const inputAccess = ref("")
-    const inputBorneInf = ref()
-    const inputBorneSup = ref()
+    const inputBorneInf = ref(0)
+    const inputBorneSup = ref(58)
 
     const cart = ref([])
 
@@ -78,8 +71,6 @@ export default {
       } else {
         cart.value.push(disp)
       }
-
-      console.log(cart.value)
     }
 
     return {
@@ -90,7 +81,6 @@ export default {
       inputAccess,
       inputBorneInf,
       inputBorneSup,
-      cart,
       manageCart,
     }
   },
@@ -176,7 +166,5 @@ export default {
       :formation="formation"
       @manageCart="manageCart(formation)"
     />
-
-    <FooterInformation />
   </main>
 </template>
