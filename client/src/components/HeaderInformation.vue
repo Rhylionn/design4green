@@ -88,8 +88,11 @@
 </template>
 
 <script>
-import { ref } from "vue"
-import CartModal from "./CartModal.vue"
+import { ref, defineAsyncComponent } from "vue"
+
+const CartModal = defineAsyncComponent({
+  loader: () => import("../components/CartModal.vue"),
+})
 
 import { useFormationStore } from "../stores/formations"
 

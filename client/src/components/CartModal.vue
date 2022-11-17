@@ -31,8 +31,6 @@
 </template>
 
 <script>
-import { useFormationStore } from "../stores/formations"
-
 export default {
   name: "CartModal",
   emits: ["close-modal"],
