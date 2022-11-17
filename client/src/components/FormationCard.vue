@@ -1,5 +1,5 @@
 <template>
-  <div class="w-4/5 sm:w-1/2 m-auto mt-5  text-xs sm:text-base">
+  <div class="w-full m-auto mt-5  text-xs sm:text-base">
     <div
       class="border-space-cadet border-2 rounded-lg"
       :class="{ 'border-white border-2 rounded-bl-lg rounded-br-lg': isHidden }"
@@ -115,8 +115,8 @@ export default {
     }
 
     function formationName(){
-      if(disp.hasOwnProperty("formationName")){
-        return disp.formationName
+      if(disp.value.hasOwnProperty("formationName")){
+        return disp.value.formationName
       } else {
         return "Formation"
       }

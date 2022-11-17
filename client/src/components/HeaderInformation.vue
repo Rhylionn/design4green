@@ -29,7 +29,7 @@
               <th class="p-2 border-2 border-space-cadet ">Supprimer la formation</th>
             </tr>
           </thead>
-          <tbody v-for="formation in cart" class="p-2 border-2 border-space-cadet text-center">
+          <tbody :key="index" v-for="(formation, index) in cart" class="p-2 border-2 border-space-cadet text-center">
             <tr>
               <td class="p-2 border-2 border-space-cadet ">{{formation.formationName}}</td>
               <td class="p-2 border-2 border-space-cadet hidden md:table-cell">{{formation.typeFormation}}</td>
@@ -64,9 +64,10 @@ export default {
     CartModal,
   },
   setup(props) {
-    let cart = ref(props.cart)
+    const cart = ref(props.cart)
     const emptyCart = ref(false)
-    const modalActive = ref(null)
+    const modalActive = ref(false)
+
     const toggleModal = () => {
       modalActive.value = !modalActive.value
     }

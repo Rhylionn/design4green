@@ -12,7 +12,7 @@ export default {
   name: "HomeView",
   components: {
     HeaderInformation,
-    //MapFormations,
+    MapFormations,
     FormationCard,
   },
   props: {
@@ -124,7 +124,7 @@ export default {
 
 <template>
   <main>
-    <HeaderInformation />
+    <HeaderInformation :cart="cart" />
 
     <div class="w-11/12 sm:w-4/5 md:w-3/4 lg:w-1/2 mx-auto">
       <form

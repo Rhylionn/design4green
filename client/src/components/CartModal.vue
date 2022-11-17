@@ -2,6 +2,7 @@
   <Teleport to="body">
     <Transition name="modal-outer">
       <div
+				v-show="modalActive"
         @keydown.esc="$emit('close-modal')"
         @wheel.prevent
         @touchmove.prevent
@@ -36,7 +37,7 @@ export default {
     modalActive: {
       type: Boolean,
       default() {
-        return falseprops
+        return false
       },
     },
     cart: {
