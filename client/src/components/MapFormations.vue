@@ -7,6 +7,8 @@ import { onBeforeMount, onMounted, onUpdated, toHandlers } from "vue"
 import "leaflet/dist/leaflet.css"
 import leaflet from "leaflet"
 
+import leafletIconUrl from "../assets/location-pin.svg"
+
 export default {
   name: "MapFormations",
   props: {
@@ -21,6 +23,9 @@ export default {
     let map
     let formations = props.formations
 		let layerGroup
+
+		const myIcon = L.icon({iconUrl: leafletIconUrl, iconSize: [19, 47.5]})
+
 
     onMounted(() => {
       loadMap()
@@ -59,7 +64,7 @@ export default {
 		}
 
     function addMarker(formation) {
-      let marker = L.marker(formation.structCoords)
+      let marker = L.marker(formation.structCoords, {icon: myIcon})
       marker.bindPopup(formation.formationName)
       layerGroup.addLayer(marker)
     }
