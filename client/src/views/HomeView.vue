@@ -12,7 +12,7 @@ export default {
   name: "HomeView",
   components: {
     HeaderInformation,
-    MapFormations,
+    //MapFormations,
     FormationCard,
   },
   props: {

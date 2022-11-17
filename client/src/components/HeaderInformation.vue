@@ -12,35 +12,36 @@
 			<span class="md:ml-2 hidden sm:flex text-sm">mon panier</span>
     </button>
 
-    <CartModal :modalActive="modalActive" @close-modal="toggleModal">
-      <div class="text-black">
-        <h1 class="text-2xl mb-1">About:</h1>
-        <p class="mb-4">
-          The Local Weather allows you to track the current and future weather
-          of cities of your choosing.
-        </p>
-        <h2 class="text-2xl">How it works:</h2>
-        <ol class="list-decimal list-inside mb-4">
-          <li>
-            Search for your city by entering the name into the search bar.
-          </li>
-          <li>
-            Select a city within the results, this will take you to the current
-            weather for your selection.
-          </li>
-          <li>
-            Track the city by clicking on the "+" icon in the top right. This
-            will save the city to view at a later time on the home page.
-          </li>
-        </ol>
-
-        <h2 class="text-2xl">Removing a city</h2>
-        <p>
-          If you no longer wish to track a city, simply select the city within
-          the home page. At the bottom of the page, there will be am option to
-          delete the city.
-        </p>
+    <CartModal :modalActive="modalActive" @close-modal="toggleModal" :cart="cart">
+      <div class="text-xs sm:text-sm md:text-base flex justify-between items-center w-4/5">
+        <button class="text-white mt-8 h-16 sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral">Demander un devis par mail</button>
+        <button class="text-white mt-8 h-16 sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral">Exporter en PDF</button>
       </div>
+        <p class="mt-5" v-if="cartContent()">Votre panier est vide !</p>
+        <table v-if="!cartContent()" class="m-2 text-xs md:text-base w-4/5">
+          <thead class="p-2 border-2 border-space-cadet">
+            <tr>
+              <th class="p-2 border-2 border-space-cadet ">Intitulé</th>
+              <th class="p-2 border-2 border-space-cadet hidden md:table-cell">Type</th>
+              <th class="p-2 border-2 border-space-cadet hidden md:table-cell">Structure</th>
+              <th class="p-2 border-2 border-space-cadet hidden md:table-cell">Durée</th>
+              <th class="p-2 border-2 border-space-cadet hidden lg:table-cell">Emplacement</th>
+              <th class="p-2 border-2 border-space-cadet ">Supprimer la formation</th>
+            </tr>
+          </thead>
+          <tbody v-for="formation in cart" class="p-2 border-2 border-space-cadet text-center">
+            <tr>
+              <td class="p-2 border-2 border-space-cadet ">{{formation.formationName}}</td>
+              <td class="p-2 border-2 border-space-cadet hidden md:table-cell">{{formation.typeFormation}}</td>
+              <td class="p-2 border-2 border-space-cadet hidden md:table-cell">{{formation.Structure}}</td>
+              <td class="p-2 border-2 border-space-cadet hidden md:table-cell">{{formation.duration}}</td>
+              <td class="p-2 border-2 border-space-cadet hidden lg:table-cell">{{formation.structLoc}}</td>
+              <td class="p-2 border-2 border-space-cadet hover:bg-orange cursor-pointer" @click="deleteFormation(formation)">Supprimer</td>
+            </tr>
+          </tbody>
+        </table>
+      
+
     </CartModal>
   </header>
 </template>
@@ -51,16 +52,41 @@ import CartModal from "./CartModal.vue"
 
 export default {
   name: "HeaderInformation",
+  props: {
+    cart: {
+      type: Array,
+      default() {
+        []
+      }
+    }
+  } ,
   components: {
     CartModal,
   },
-  setup() {
+  setup(props) {
+    let cart = ref(props.cart)
+    const emptyCart = ref(false)
     const modalActive = ref(null)
     const toggleModal = () => {
       modalActive.value = !modalActive.value
     }
 
-    return { modalActive, toggleModal }
+    function cartContent(){
+      if(cart.value.length==0){
+        emptyCart.value = true
+      } else {
+        emptyCart.value = false
+      }
+      return emptyCart.value
+    }
+
+    function deleteFormation(formation) {
+        cart.value.splice(cart.value.indexOf(formation), 1)
+    }
+
+    return { modalActive, toggleModal, cart, cartContent, deleteFormation}
+    
+    
   },
 }
 </script>
