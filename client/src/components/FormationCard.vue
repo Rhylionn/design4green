@@ -1,5 +1,5 @@
 <template>
-  <div class="w-1/2 m-auto mt-5 flex flex-col gap-4 font-inter">
+  <div class="w-full m-auto mt-5 flex flex-col gap-4">
     <div
       class="border-space-cadet border-2 rounded-lg"
       :class="{ 'border-white border-2 rounded-bl-lg rounded-br-lg': isHidden }"

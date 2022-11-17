@@ -1,9 +1,9 @@
 <template>
-  <div id="mapid" class="h-80 min-w-full z-0"></div>
+  <div id="mapid" class="h-full z-0"></div>
 </template>
 
 <script>
-import { onMounted, onUpdated } from "vue"
+import { onBeforeMount, onMounted, onUpdated } from "vue"
 import "leaflet/dist/leaflet.css"
 import leaflet from "leaflet"
 
