@@ -1,15 +1,15 @@
 <template>
-  <header class="text-center p-3 bg-cyan-900 items-center flex flex-col">
+  <header class="text-center p-3 bg-space-cadet items-center flex justify-evenly h-24">
     <p class="text-white text-2xl">Equipe 15</p>
-    <h1 class="text-white text-5xl">Choix des formations</h1>
+    <h1 class="text-white text-3xl">Choix des formations</h1>
 
     <button
       aria-labe="Basket"
-      class="my-2.5 h-8 w-32 rounded-lg bg-slate-400 text-black text-2xl flex items-center justify-center hover:bg-emerald-500 cursor-pointer"
+      class="w-fit px-5 py-2 rounded-xl bg-white text-black text-2xl flex items-center justify-center cursor-pointer"
       @click="toggleModal"
     >
-      <FontAwesomeIcon icon="fa-cart-shopping" class="pr-2.5" />
-      Backet
+      <FontAwesomeIcon icon="fa-cart-shopping"/>
+			<span class="ml-2 text-sm">mon panier</span>
     </button>
 
     <CartModal :modalActive="modalActive" @close-modal="toggleModal">
