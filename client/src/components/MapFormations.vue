@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { onBeforeMount, onMounted, onUpdated, toHandlers } from "vue"
+import { onMounted, onUpdated } from "vue"
 import "leaflet/dist/leaflet.css"
 import leaflet from "leaflet"
 

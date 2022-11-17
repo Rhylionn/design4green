@@ -20,7 +20,6 @@ export default {
 
 		const filteredFormations = computed(() => {
 			return formations.value.filter((formation) => {
-				console.log(formation.hasOwnProperty("formationName"))
 				if(filterByText.value != ""){
 					if(formation.hasOwnProperty("formationName") && formation.formationName.includes(filterByText.value)){
 						return true
