@@ -16,7 +16,7 @@
       <span class="md:ml-2 hidden sm:flex text-sm">mon panier</span>
     </button>
 
-    <CartModal :modalActive="modalActive" @close-modal="toggleModal">
+    <CartModal :modalActive="modalActive" @close-modal="closeModal">
       <div
         class="text-xs sm:text-sm md:text-base flex justify-between items-center w-4/5"
       >
@@ -112,6 +112,10 @@ export default {
       modalActive.value = !modalActive.value
     }
 
+    const closeModal = () => {
+      modalActive.value = false
+    }
+
     function cartContent() {
       return cart.length == 0 ? true : false
     }
@@ -120,7 +124,14 @@ export default {
       cartStore.removeFormation(formation)
     }
 
-    return { modalActive, toggleModal, cart, cartContent, deleteFormation }
+    return {
+      modalActive,
+      toggleModal,
+      cart,
+      cartContent,
+      deleteFormation,
+      closeModal,
+    }
   },
 }
 </script>
