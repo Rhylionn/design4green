@@ -1,24 +1,13 @@
 <template>
-    <ListeFormations v-for="(formation,index) in formations" :key="index" :formation="formation"/>
-    </template>
+    
+</template>
 
 <script>
 import { ref, onBeforeMount } from "vue"
-import ListeFormations from "./components/ListeFormations.vue"
 
-const cart = ref([])
-export { cart }
 
 export default {
-    data () {
-        return {
-            cart
-        }
-    },
     name: "App",
-    components: { 
-        ListeFormations 
-    },
     setup() {
         const formations = ref([]);
         onBeforeMount(async () => {
