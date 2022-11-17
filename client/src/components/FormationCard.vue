@@ -1,18 +1,18 @@
 <template>
-  <div class="w-1/2 m-auto mt-5 flex flex-col gap-4 font-inter">
+  <div class="w-4/5 sm:w-1/2 m-auto mt-5  text-xs sm:text-base">
     <div
       class="border-space-cadet border-2 rounded-lg"
       :class="{ 'border-white border-2 rounded-bl-lg rounded-br-lg': isHidden }"
     >
       <div
-        class="h-16 flex items-center justify-between"
+        class="h-16 flex items-center w-full justify-between sm:h-fit"
         :class="{
-          'bg-space-cadet text-white border-b-2 rounded-tl-lg rounded-tr-lg':
+          'bg-space-cadet text-white border-b-2 rounded-tl-lg rounded-tr-lg font-bold':
             isHidden,
         }"
       >
         <div
-          class="cursor-pointer border-r-2 h-16 w-16 flex justify-center items-center border-space-cadet"
+          class="cursor-pointer border-r-2 h-16 sm:h-24 lg:h-16 w-10 sm:w-16 flex justify-center items-center border-space-cadet"
           @click="select(), $emit('manageCart', disp)"
           :class="{
             'border-white': isHidden,
@@ -31,10 +31,10 @@
           />
         </div>
 
-        <h1 class="pl-5 pr-5">{{ disp.formationName }}</h1>
+        <h1 class="pl-5 pr-5 w-4/5 sm:w-[90%] text-center">{{ formationName() }}</h1>
 
         <div
-          class="cursor-pointer border-l-2 h-16 w-16 flex justify-center items-center border-space-cadet"
+          class="cursor-pointer border-l-2 h-16 sm:h-24 lg:h-16 w-10 sm:w-16 flex justify-center items-center border-space-cadet"
           :class="{ 'border-white': isHidden }"
           @click="toggle()"
         >
@@ -59,7 +59,7 @@
         <hr />
         <p>
           <br />
-          {{ disp.programDescription.replace('\n','<br />') }}
+          {{ disp.programDescription}}
         </p>
       </div>
     </div>
@@ -92,12 +92,20 @@ export default {
       isSelected.value = !isSelected.value
     }
 
+    function formationName(){
+      if(disp.hasOwnProperty("formationName")){
+        return disp.formationName
+      } else {
+        return "Formation"
+      }
+    }
     return {
       disp,
       isHidden,
       toggle,
       isSelected,
       select,
+      formationName
     }
   },
 }

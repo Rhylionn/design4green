@@ -3,18 +3,18 @@
     <Transition name="modal-outer">
       <div
         v-show="modalActive"
-        class="absolute w-full bg-black bg-opacity-30 h-screen top-0 left-0 flex justify-center px-8"
+        class="absolute w-full h-screen bg-black bg-opacity-30 top-0 left-0 flex justify-center px-8"
       >
         <Transition name="modal-inner">
           <div
             v-if="modalActive"
-            class="p-4 bg-white self-start mt-32 max-w-screen-md flex items-center justify-center flex-col border-2 border-black rounded-md z-50"
+            class="p-4 w-4/5 bg-white self-start mt-32 max-w-screen-md flex items-center justify-center flex-col border-2 border-black rounded-md z-50"
           >
             <slot />
             <button
               aria-label="Fermer"
-              class="text-white mt-8 bg-sky-800 py-2 px-6 hover:bg-amber-600 rounded-sm cursor-pointer border-2 border-black"
-              @click="$emit('close-modal')"
+              class="text-white mt-8 p-2 bg-space-cadet rounded-lg cursor-pointer border-2 border-space-cadet hover:bg-black-coral"
+              @click="$emit('close-modal')" @keypress.enter="$emit('close-modal')"
             >
               Fermer
             </button>
@@ -28,6 +28,7 @@
 <script>
 export default {
   name: "CartModal",
+  emits: ['close-modal'],
   props: {
     modalActive: {
       type: Boolean,
@@ -35,17 +36,25 @@ export default {
         return falseprops
       },
     },
+    cart: {
+      type : Array,
+      default(){
+        return []
+      }
+    }
   },
   setup(props, { emit }) {
+    let cart = props.cart
+    console.log(cart)
     const close = () => {
       emit("close-modal")
     }
-    return { close }
+    return { close, cart }
   },
 }
 </script>
 
-<style scoped>
+<style scoped> 
 .modal-outer-enter-active,
 .modal-outer-leave-active {
   transition: opacity 0.3s cubic-bezier(0.52, 0.02, 0.19, 1.02);

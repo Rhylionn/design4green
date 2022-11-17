@@ -9,38 +9,37 @@
       @click="toggleModal"
     >
       <FontAwesomeIcon icon="fa-cart-shopping" class="pr-2.5" />
-      Backet
+      
     </button>
 
-    <CartModal :modalActive="modalActive" @close-modal="toggleModal">
-      <div class="text-black">
-        <h1 class="text-2xl mb-1">About:</h1>
-        <p class="mb-4">
-          The Local Weather allows you to track the current and future weather
-          of cities of your choosing.
-        </p>
-        <h2 class="text-2xl">How it works:</h2>
-        <ol class="list-decimal list-inside mb-4">
-          <li>
-            Search for your city by entering the name into the search bar.
-          </li>
-          <li>
-            Select a city within the results, this will take you to the current
-            weather for your selection.
-          </li>
-          <li>
-            Track the city by clicking on the "+" icon in the top right. This
-            will save the city to view at a later time on the home page.
-          </li>
-        </ol>
-
-        <h2 class="text-2xl">Removing a city</h2>
-        <p>
-          If you no longer wish to track a city, simply select the city within
-          the home page. At the bottom of the page, there will be am option to
-          delete the city.
-        </p>
+    <CartModal :modalActive="modalActive" @close-modal="toggleModal" :cart="cart">
+      <div class="flex justify-between items-center w-full gap-10">
+        <button class="text-white mt-8 p-2 bg-space-cadet rounded-lg cursor-pointer border-2 border-space-cadet hover:bg-black-coral">Demander un devis par mail</button>
+        <button class="text-white mt-8 p-2 bg-space-cadet rounded-lg cursor-pointer border-2 border-space-cadet hover:bg-black-coral">Exporter en PDF</button>
       </div>
+        <p v-if="cartContent()">Votre panier est vide !</p>
+        <table v-if="!cartContent()" class="text-center mt-5 w-4/5 m-auto">
+          <thead class="border-2 border-space-cadet">
+            <tr>
+              <th class="p-2 border-r-2 border-space-cadet">Intitulé</th>
+              <th class="p-2 border-r-2 border-space-cadet">Type</th>
+              <th class="p-2 border-r-2 border-space-cadet">Structure</th>
+              <th class="p-2 border-r-2 border-space-cadet">Durée</th>
+              <th class="p-2">Emplacement</th>
+            </tr>
+          </thead>
+          <tbody v-for="formation in cart" class="border-2 border-space-cadet">
+            <tr>
+              <td class="p-2 border-r-2 border-space-cadet">{{formation.formationName}}</td>
+              <td class="p-2 border-r-2 border-space-cadet">{{formation.typeFormation}}</td>
+              <td class="p-2 border-r-2 border-space-cadet">{{formation.Structure}}</td>
+              <td class="p-2 border-r-2 border-space-cadet">{{formation.duration}}</td>
+              <td class="p-2">{{formation.structLoc}}</td>
+            </tr>
+          </tbody>
+        </table>
+      
+
     </CartModal>
   </header>
 </template>
@@ -51,16 +50,42 @@ import CartModal from "./CartModal.vue"
 
 export default {
   name: "HeaderInformation",
+  props: {
+    cart: {
+      type: Array,
+      default() {
+        []
+      }
+    }
+  } ,
   components: {
     CartModal,
   },
-  setup() {
+  setup(props) {
+    let cart = ref(props.cart)
+    const emptyCart = ref(false)
     const modalActive = ref(null)
     const toggleModal = () => {
       modalActive.value = !modalActive.value
     }
-
-    return { modalActive, toggleModal }
+    function afficherListe(){
+      let currentCart = []
+      for(let i;i<cart.value.length;i++){
+        currentCart.push(cart.value[i])
+      }
+      return currentCart
+    }
+    function cartContent(){
+      if(cart.value.length==0){
+        emptyCart.value = true
+      } else {
+        emptyCart.value = false
+      }
+      return emptyCart.value
+    }
+    return { modalActive, toggleModal, cart, afficherListe, cartContent}
+    
+    
   },
 }
 </script>

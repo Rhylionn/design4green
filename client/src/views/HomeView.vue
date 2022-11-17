@@ -10,7 +10,7 @@ export default {
   name: "HomeView",
   components: {
     HeaderInformation,
-    MapFormations,
+    //MapFormations,
     FormationCard,
     FooterInformation,
   },
@@ -73,12 +73,11 @@ export default {
 
     function manageCart(disp) {
       if (cart.value.includes(disp)) {
-        const index = cart.indexOf(disp)
-        cart.splice(index, 1)
+        const index = cart.value.indexOf(disp)
+        cart.value.splice(index, 1)
       } else {
         cart.value.push(disp)
       }
-
       console.log(cart.value)
     }
 
@@ -91,7 +90,7 @@ export default {
       inputBorneInf,
       inputBorneSup,
       cart,
-      manageCart,
+      manageCart
     }
   },
 }
@@ -99,7 +98,7 @@ export default {
 
 <template>
   <main>
-    <HeaderInformation />
+    <HeaderInformation :cart='cart'/>
     <form class="filters">
       <input type="text" v-model="filterByText" />
 
