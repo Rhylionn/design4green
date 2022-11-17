@@ -11,8 +11,9 @@
             class="p-4 bg-white self-start mt-32 max-w-screen-md flex items-center justify-center flex-col border-2 border-black rounded-md"
           >
             <slot />
-            <button aria-label="Fermer"
-              class="text-white mt-8 bg-sky-800 py-2 px-6  hover:bg-amber-600 rounded-sm cursor-pointer border-2 border-black"
+            <button
+              aria-label="Fermer"
+              class="text-white mt-8 bg-sky-800 py-2 px-6 hover:bg-amber-600 rounded-sm cursor-pointer border-2 border-black"
               @click="$emit('close-modal')"
             >
               Fermer
@@ -26,19 +27,22 @@
 
 <script>
 export default {
+  name: "CartModal",
   props: {
     modalActive: {
       type: Boolean,
-      default: false,
+      default() {
+        return falseprops
+      },
     },
   },
   setup(props, { emit }) {
     const close = () => {
-      emit("close-modal");
-    };
-    return { close };
+      emit("close-modal")
+    }
+    return { close }
   },
-};
+}
 </script>
 
 <style scoped>
