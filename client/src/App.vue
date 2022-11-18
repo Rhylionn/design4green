@@ -3,29 +3,13 @@
 </template>
 
 <script>
-import { ref, onBeforeMount } from "vue"
+import { ref, computed, onBeforeMount } from "vue"
 
 export default {
-  name: "App",
   setup() {
     const formations = ref([])
 
-    onBeforeMount(async () => {
-      formations.value = await getFormations()
-    })
-
-    async function getFormations() {
-      let formationsRequest
-      if (localStorage.getItem("formations") === null) {
-        formationsRequest = await fetchFormations()
-        localStorage.setItem("formations", JSON.stringify(formationsRequest))
-      } else {
-        formationsRequest = JSON.parse(localStorage.getItem("formations"))
-      }
-
-      return formationsRequest
-    }
-
+    // Fonction séparée pour fetch les formations
     async function fetchFormations() {
       const endpoint = `${import.meta.env.VITE_API_URL}/formations`
 
@@ -34,7 +18,7 @@ export default {
     }
 
     onBeforeMount(async () => {
-      formations.value = await getFormations()
+      formations.value = await fetchFormations()
     })
 
     return { formations }

@@ -2,12 +2,13 @@
   <Teleport to="body">
     <Transition name="modal-outer">
       <div
-				v-show="modalActive"
+        v-show="modalActive"
         @keydown.esc="$emit('close-modal')"
         @wheel.prevent
         @touchmove.prevent
         @scroll.prevent
         class="absolute w-full bg-black bg-opacity-30 h-screen top-0 left-0 flex justify-center px-8"
+        tabindex="0"
       >
         <Transition name="modal-inner">
           <div
@@ -32,7 +33,7 @@
 <script>
 export default {
   name: "CartModal",
-  emits: ['close-modal'],
+  emits: ["close-modal"],
   props: {
     modalActive: {
       type: Boolean,
@@ -40,26 +41,18 @@ export default {
         return false
       },
     },
-    cart: {
-      type : Array,
-      default(){
-        return []
-      }
-    }
   },
-  setup(props, { emit }) {
-    let cart = props.cart
-    console.log(cart)
+  setup(_, { emit }) {
     const close = () => {
       emit("close-modal")
     }
 
-    return { close, cart }
+    return { close }
   },
 }
 </script>
 
-<style scoped> 
+<style scoped>
 .modal-outer-enter-active,
 .modal-outer-leave-active {
   transition: opacity 0.3s cubic-bezier(0.52, 0.02, 0.19, 1.02);

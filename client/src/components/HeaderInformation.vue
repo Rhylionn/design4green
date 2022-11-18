@@ -1,10 +1,14 @@
 <template>
-  <header class="text-center p-3 bg-space-cadet items-center flex justify-evenly h-24">
+  <header
+    class="text-center p-3 bg-space-cadet items-center flex justify-evenly h-24"
+  >
     <p class="text-white text-md md:text-xl hidden sm:flex">Equipe 15</p>
-    <h1 class="text-white text-xl sm:text-2xl md:text-3xl">Choix des formations</h1>
+    <h1 class="text-white text-xl sm:text-2xl md:text-3xl">
+      Choix des formations
+    </h1>
 
     <button
-      aria-labe="Basket"
+      aria-label="Panier"
       class="w-fit px-3 py-3 sm:px-5 sm:py-2 rounded-xl bg-white text-black text-2xl flex items-center justify-center cursor-pointer"
       @click="toggleModal"
     >
@@ -14,13 +18,13 @@
 			/>
 			<span class="md:ml-2 hidden sm:flex text-sm">mon panier</span>
     </button>
-
-    <CartModal :modalActive="modalActive" @close-modal="toggleModal" :cart="cart">
+ 
+    <CartModal :modalActive="modalActive" @close-modal="closeModal">
       <div class="text-xs sm:text-sm md:text-base flex justify-between items-center w-4/5">
-        <button class="text-white print:hidden mt-8 h-16 sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral">Demander un devis par mail</button>
-        <button @click="generateReport()" class="text-white print:hidden mt-8 h-16 sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral">Exporter en PDF</button>
+        <a v-show="!cartContent()" :href="sendMail()" class="text-white mt-8 h-16 sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral">Demander un devis par mail</a>
+        <button v-show="!cartContent()" class="text-white mt-8 h-16 sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral">Exporter en PDF</button>
       </div>
-        <p class="mt-5" v-if="cartContent()">Votre panier est vide !</p>
+        <p class="mt-5" v-show="cartContent()">Votre panier est vide !</p>
 				<h1 class="hidden print:block text-2xl mb-10">Récapitulatif des formations sélectionnées</h1>
         <table v-if="!cartContent()" class="m-2 text-xs md:text-base w-4/5 table-auto" media="print">
           <thead class="p-2 border-2 border-space-cadet ">
@@ -49,49 +53,56 @@
 </template>
 
 <script>
-import { ref } from "vue"
-import CartModal from "./CartModal.vue"
+import { ref, defineAsyncComponent } from "vue"
+
+const CartModal = defineAsyncComponent({
+  loader: () => import("../components/CartModal.vue"),
+})
+
+import { useFormationStore } from "../stores/formations"
 
 export default {
   name: "HeaderInformation",
-  props: {
-    cart: {
-      type: Array,
-      default() {
-        []
-      }
-    }
-  } ,
   components: {
     CartModal,
   },
-  setup(props) {
-    const cart = ref(props.cart)
-    const emptyCart = ref(false)
+  setup() {
+    const cartStore = useFormationStore()
+
     const modalActive = ref(false)
+
+    const cart = cartStore.cart
 
     const toggleModal = () => {
       modalActive.value = !modalActive.value
     }
 
-    function cartContent () {
-      if (cart.value.length == 0) {
-        emptyCart.value = true
-      } else {
-        emptyCart.value = false
-      }
-      return emptyCart.value
+    const closeModal = () => {
+      modalActive.value = false
+    }
+
+    function cartContent() {
+      return cart.length == 0 ? true : false
     }
 		
 		function generateReport () {
 			window.print()
 		}
 
-    function deleteFormation (formation) {
-        cart.value.splice(cart.value.indexOf(formation), 1)
+    function deleteFormation(formation) {
+      cartStore.removeFormation(formation)
     }
 
-    return { modalActive, toggleModal, cart, cartContent, deleteFormation, generateReport}    
+    function sendMail(){
+        const objet = `Demande de devis pour ${cart.length} formation(s)`
+        let message = "Bonjour, \n Je souhaiterai avoir un devis pour les formations suivantes :\n"
+        for(let i=0;i<cart.length;i++){
+          message += `- Formation par ${cart[i].organismeName} d'une durée de ${cart[i].duration} jour(s)\n`
+        }
+        return `mailto:design4green@etik.com?subject=${encodeURIComponent(objet)}&body=${encodeURIComponent(message)}`
+    }
+
+    return { modalActive, toggleModal, cart, cartContent, deleteFormation, sendMail, closeModal, generateReport}
   },
 }
 </script>

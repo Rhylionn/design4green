@@ -1,5 +1,11 @@
 <script>
-import { ref, onBeforeMount, computed, defineAsyncComponent } from "vue"
+import {
+  ref,
+  onBeforeMount,
+  computed,
+  defineAsyncComponent,
+  onUpdated,
+} from "vue"
 
 import HeaderInformation from "../components/HeaderInformation.vue"
 import FormationCard from "../components/FormationCard.vue"
@@ -16,10 +22,10 @@ export default {
     FormationCard,
   },
   props: {
-    formations: Array,
+    formations: Object,
   },
   setup(props) {
-    const formations = ref([])
+    const formations = ref({})
     const filterByText = ref("")
     const inputFormationType = ref("")
     const inputStructure = ref("")
@@ -29,12 +35,14 @@ export default {
 
     const maploaded = ref(false)
 
-    const cart = ref([])
-
     const itemPerPages = 10
     let currentPage = ref(0)
 
     onBeforeMount(() => {
+      formations.value = props.formations
+    })
+
+    onUpdated(() => {
       formations.value = props.formations
     })
 
@@ -93,15 +101,6 @@ export default {
       }
     }
 
-    function manageCart(disp) {
-      if (cart.value.includes(disp)) {
-        const index = cart.value.indexOf(disp)
-        cart.value.splice(index, 1)
-      } else {
-        cart.value.push(disp)
-      }
-    }
-
     return {
       filteredFormations,
       filterByText,
@@ -110,8 +109,6 @@ export default {
       inputAccess,
       inputBorneInf,
       inputBorneSup,
-      manageCart,
-      cart,
       currentPageFormations,
       currentPage,
       pageUp,
@@ -124,7 +121,7 @@ export default {
 
 <template>
   <main>
-    <HeaderInformation :cart="cart" />
+    <HeaderInformation />
 
     <div class="w-11/12 sm:w-4/5 md:w-3/4 lg:w-1/2 mx-auto">
       <form
@@ -290,8 +287,6 @@ export default {
 				class="print:hidden"
         :key="index"
         :formation="formation"
-        :cart="cart"
-        @manageCart="manageCart(formation)"
       />
     </div>
 
