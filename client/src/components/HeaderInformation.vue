@@ -112,10 +112,10 @@ export default {
 
 
     function sendMail(){
-        const objet = `Demande de devis pour ${cart.value.length} formation(s)`
+        const objet = `Demande de devis pour ${cart.length} formation(s)`
         let message = "Bonjour, \n Je souhaiterai avoir un devis pour les formations suivantes :\n"
-        for(let i=0;i<cart.value.length;i++){
-          message += `- Formation par ${cart.value[i].organismeName} d'une durée de ${cart.value[i].duration} jour(s)\n`
+        for(let i=0;i<cart.length;i++){
+          message += `- Formation par ${cart[i].organismeName} d'une durée de ${cart[i].duration} jour(s)\n`
         }
         return `mailto:design4green@etik.com?subject=${encodeURIComponent(objet)}&body=${encodeURIComponent(message)}`
     }
