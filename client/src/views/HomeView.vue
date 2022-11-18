@@ -272,8 +272,7 @@ export default {
             class="bg-space-cadet text-white p-5 border-2 rounded-xl text-md font-bold"
             @click="maploaded = !maploaded"
           >
-            <FontAwesomeIcon alt="" icon="fa-map-location-dot" aria-hidden="true"/>
-
+            <FontAwesomeIcon icon="fa-map-location-dot" aria-hidden="true"/>
             <span class="ml-2">Afficher les formations sur la carte</span>
           </button>
         </div>

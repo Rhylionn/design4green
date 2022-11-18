@@ -22,8 +22,9 @@
             <slot />
             <button
               aria-label="Fermer"
-              class="text-white print:hidden h-16 sm:h-14 md:h-16 w-1/3 mt-8 p-2 bg-space-cadet rounded-lg cursor-pointer border-2 border-space-cadet hover:bg-black-coral"
-              @click="$emit('close-modal')" @keypress.enter="$emit('close-modal')"
+              class="text-white print:hidden mt-8 p-2 bg-space-cadet rounded-lg cursor-pointer border-2 border-space-cadet hover:bg-black-coral"
+              @click="$emit('close-modal')"
+              @keypress.enter="$emit('close-modal')"
             >
               Fermer
             </button>

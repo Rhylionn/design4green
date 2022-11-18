@@ -1,6 +1,7 @@
 const express = require("express")
 const cors = require("cors")
 const dotenv = require("dotenv")
+const compression = require("compression")
 
 dotenv.config()
 
@@ -10,6 +11,8 @@ app.use(
     origin: process.env.CLIENT,
   })
 )
+
+app.use(compression())
 
 app.use("/formations", require("./routes/formations"))
 
