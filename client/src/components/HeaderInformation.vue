@@ -4,7 +4,7 @@
     <h1 class="text-white text-xl sm:text-2xl md:text-3xl">Choix des formations</h1>
 
     <button
-      aria-labe="Basket"
+      aria-label="Basket"
       class="w-fit px-3 py-3 sm:px-5 sm:py-2 rounded-xl bg-white text-black text-2xl flex items-center justify-center cursor-pointer"
       @click="toggleModal"
     >
@@ -14,8 +14,8 @@
 
     <CartModal :modalActive="modalActive" @close-modal="toggleModal" :cart="cart">
       <div class="text-xs sm:text-sm md:text-base flex justify-between items-center w-4/5">
-        <button class="text-white mt-8 h-16 sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral">Demander un devis par mail</button>
-        <button class="text-white mt-8 h-16 sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral">Exporter en PDF</button>
+        <a v-show="!cartContent()" :href="sendMail()" class="text-white mt-8 h-16 sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral">Demander un devis par mail</a>
+        <button v-show="!cartContent()" class="text-white mt-8 h-16 sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral">Exporter en PDF</button>
       </div>
         <p class="mt-5" v-if="cartContent()">Votre panier est vide !</p>
         <table v-if="!cartContent()" class="m-2 text-xs md:text-base w-4/5">
@@ -85,7 +85,16 @@ export default {
         cart.value.splice(cart.value.indexOf(formation), 1)
     }
 
-    return { modalActive, toggleModal, cart, cartContent, deleteFormation}
+    function sendMail(){
+        const objet = `Demande de devis pour ${cart.value.length} formation(s)`
+        let message = "Bonjour, \n Je souhaiterai avoir un devis pour les formations suivantes :\n"
+        for(let i=0;i<cart.value.length;i++){
+          message += `- Formation par ${cart.value[i].organismeName} d'une durée de ${cart.value[i].duration} jour(s)\n`
+        }
+        return `mailto:design4green@etik.com?subject=${encodeURIComponent(objet)}&body=${encodeURIComponent(message)}`
+    }
+
+    return { modalActive, toggleModal, cart, cartContent, deleteFormation, sendMail}
     
     
   },
