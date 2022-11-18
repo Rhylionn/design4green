@@ -8,6 +8,7 @@
         @touchmove.prevent
         @scroll.prevent
         class="absolute w-full bg-black bg-opacity-30 h-screen top-0 left-0 flex justify-center px-8"
+        tabindex="0"
       >
         <Transition name="modal-inner">
           <div

@@ -15,8 +15,8 @@
       <FontAwesomeIcon icon="fa-cart-shopping" />
       <span class="md:ml-2 hidden sm:flex text-sm">mon panier</span>
     </button>
-    
-    <CartModal :modalActive="modalActive" @close-modal="toggleModal" :cart="cart">
+ 
+    <CartModal :modalActive="modalActive" @close-modal="closeModal">
       <div class="text-xs sm:text-sm md:text-base flex justify-between items-center w-4/5">
         <a v-show="!cartContent()" :href="sendMail()" class="text-white mt-8 h-16 sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral">Demander un devis par mail</a>
         <button v-show="!cartContent()" class="text-white mt-8 h-16 sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral">Exporter en PDF</button>
@@ -102,6 +102,10 @@ export default {
       modalActive.value = !modalActive.value
     }
 
+    const closeModal = () => {
+      modalActive.value = false
+    }
+
     function cartContent() {
       return cart.length == 0 ? true : false
     }
@@ -109,7 +113,6 @@ export default {
     function deleteFormation(formation) {
       cartStore.removeFormation(formation)
     }
-
 
     function sendMail(){
         const objet = `Demande de devis pour ${cart.length} formation(s)`
@@ -120,7 +123,7 @@ export default {
         return `mailto:design4green@etik.com?subject=${encodeURIComponent(objet)}&body=${encodeURIComponent(message)}`
     }
 
-    return { modalActive, toggleModal, cart, cartContent, deleteFormation, sendMail}
+    return { modalActive, toggleModal, cart, cartContent, deleteFormation, sendMail, closeModal}
     
   },
 }

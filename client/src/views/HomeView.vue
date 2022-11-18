@@ -1,5 +1,11 @@
 <script>
-import { ref, onBeforeMount, computed, defineAsyncComponent } from "vue"
+import {
+  ref,
+  onBeforeMount,
+  computed,
+  defineAsyncComponent,
+  onUpdated,
+} from "vue"
 
 import HeaderInformation from "../components/HeaderInformation.vue"
 import FormationCard from "../components/FormationCard.vue"
@@ -16,10 +22,10 @@ export default {
     FormationCard,
   },
   props: {
-    formations: Array,
+    formations: Object,
   },
   setup(props) {
-    const formations = ref([])
+    const formations = ref({})
     const filterByText = ref("")
     const inputFormationType = ref("")
     const inputStructure = ref("")
@@ -33,6 +39,10 @@ export default {
     let currentPage = ref(0)
 
     onBeforeMount(() => {
+      formations.value = props.formations
+    })
+
+    onUpdated(() => {
       formations.value = props.formations
     })
 
