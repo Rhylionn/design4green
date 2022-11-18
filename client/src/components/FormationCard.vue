@@ -20,19 +20,27 @@
           }"
         >
           <FontAwesomeIcon
-						alt="Ajouter au panier"
+            role="img"
+            aria-label="Ajouter au panier"
+            alt="Symbole positif"
             icon="fa-circle-plus"
             class="h-5"
             v-if="!isSelected"
           />
           <FontAwesomeIcon
-						alt="Retirer du panier"
+            role="img"
+            aria-label="Retirer du panier"
+            alt="Symbole positif"
             icon="fa-circle-minus"
             class="h-5"
             v-if="isSelected"
           />
         </div>
-        <h3 class="pl-5 pr-5 w-4/5 text-md sm:text-lg md:text-xl sm:w-[90%] text-center">{{ formationName() }}</h3>
+        <h3
+          class="pl-5 pr-5 w-4/5 text-md sm:text-lg md:text-xl sm:w-[90%] text-center"
+        >
+          {{ formationName() }}
+        </h3>
 
         <div
           class="cursor-pointer border-l-2 h-16 sm:h-24 lg:h-16 w-10 sm:w-16 flex justify-center items-center border-space-cadet"
@@ -40,18 +48,22 @@
           @click="toggle()"
         >
           <FontAwesomeIcon
-						alt="Afficher les détails de la formation."
-						icon="fa-caret-down" 
-						v-if="!isHidden" 
-						class="h-5" 
-					/>
+            role="img"
+            aria-label="Afficher les détails de la formation."
+            alt="Symbole flèche orientée vers le bas."
+            icon="fa-caret-down"
+            v-if="!isHidden"
+            class="h-5"
+          />
 
           <FontAwesomeIcon
-						alt="Masquer les détails de la formation."
-						icon="fa-caret-up"
-						v-if="isHidden"
-						class="h-5"
-					/>
+            role="img"
+            aria-label="Masquer les détails de la formation."
+            alt="Symbole flèche orientée vers le haut."
+            icon="fa-caret-up"
+            v-if="isHidden"
+            class="h-5"
+          />
         </div>
       </div>
       <div
@@ -90,20 +102,20 @@ export default {
     formation: {
       type: Object,
       default() {
-        return {}
+        return {};
       },
     },
   },
   setup(props) {
-    const currentFormation = ref(props.formation)
+    const currentFormation = ref(props.formation);
 
-    const isHidden = ref(false)
-    const isSelected = ref(false)
+    const isHidden = ref(false);
+    const isSelected = ref(false);
 
-    const cart = useFormationStore()
+    const cart = useFormationStore();
 
     function toggle() {
-      isHidden.value = !isHidden.value
+      isHidden.value = !isHidden.value;
     }
 
 		function checkSelected() {
@@ -116,19 +128,19 @@ export default {
     })
 
     function select() {
-      isSelected.value = !isSelected.value
+      isSelected.value = !isSelected.value;
       if (cart.getIndex(currentFormation.value) < 0) {
-        cart.addFormation(currentFormation.value)
+        cart.addFormation(currentFormation.value);
       } else {
-        cart.removeFormation(currentFormation.value)
+        cart.removeFormation(currentFormation.value);
       }
     }
 
     function formationName() {
       if (currentFormation.value.hasOwnProperty("formationName")) {
-        return currentFormation.value.formationName
+        return currentFormation.value.formationName;
       } else {
-        return "Formation"
+        return "Formation";
       }
     }
 
@@ -143,7 +155,7 @@ export default {
       isSelected,
       select,
       formationName,
-    }
+    };
   },
-}
+};
 </script>

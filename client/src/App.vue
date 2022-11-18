@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { ref, computed, onBeforeMount } from "vue"
+import { ref, onBeforeMount } from "vue"
 
 export default {
   setup() {
