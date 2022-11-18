@@ -15,6 +15,8 @@ import {
   faCaretUp,
   faMagnifyingGlass,
   faMapLocationDot,
+  faCircleRight,
+  faCircleLeft
 } from "@fortawesome/free-solid-svg-icons"
 
 library.add(
@@ -24,7 +26,9 @@ library.add(
   faCircleMinus,
   faCaretUp,
   faMagnifyingGlass,
-  faMapLocationDot
+  faMapLocationDot,
+  faCircleRight,
+  faCircleLeft
 )
 
 const app = createApp(App)

@@ -4,16 +4,20 @@
       <div
         v-show="modalActive"
         @keydown.esc="$emit('close-modal')"
-        @wheel.prevent
         @touchmove.prevent
-        @scroll.prevent
-        class="absolute w-full bg-black bg-opacity-30 h-screen top-0 left-0 flex justify-center px-8"
+        class="absolute w-full min-h-screen top-0 left-0 flex justify-center px-8"
         tabindex="0"
       >
+      <div
+        v-show="modalActive"
+        @touchmove.prevent
+        class="fixed w-full bg-black bg-opacity-30 min-h-screen top-0 left-0 flex justify-center px-8"
+        tabindex="0"
+      ></div>
         <Transition name="modal-inner">
           <div
             v-if="modalActive"
-            class="p-4 w-full bg-white self-start mt-32 max-w-screen-md flex items-center justify-center print:border-none flex-col border-2 border-black rounded-md z-50"
+            class="p-4 w-full bg-white self-start mt-32 max-w-screen-md flex items-center justify-center print:border-none flex-col border-2 border-black rounded-xl z-50"
           >
             <slot />
             <button

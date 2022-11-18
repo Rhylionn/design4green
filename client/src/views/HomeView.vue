@@ -5,14 +5,15 @@ import {
   computed,
   defineAsyncComponent,
   onUpdated,
-} from "vue"
+} from "vue";
 
-import HeaderInformation from "../components/HeaderInformation.vue"
-import FormationCard from "../components/FormationCard.vue"
+import HeaderInformation from "../components/HeaderInformation.vue";
+import FormationCard from "../components/FormationCard.vue";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 const MapFormations = defineAsyncComponent({
   loader: () => import("../components/MapFormations.vue"),
-})
+});
 
 export default {
   name: "HomeView",
@@ -20,37 +21,38 @@ export default {
     HeaderInformation,
     MapFormations,
     FormationCard,
+    FontAwesomeIcon,
   },
   props: {
     formations: Object,
   },
   setup(props) {
-    const formations = ref({})
-    const filterByText = ref("")
-    const inputFormationType = ref("")
-    const inputStructure = ref("")
-    const inputAccess = ref("")
-    const inputBorneInf = ref(0)
-    const inputBorneSup = ref(58)
+    const formations = ref({});
+    const filterByText = ref("");
+    const inputFormationType = ref("");
+    const inputStructure = ref("");
+    const inputAccess = ref("");
+    const inputBorneInf = ref(0);
+    const inputBorneSup = ref(58);
 
-    const maploaded = ref(false)
+    const maploaded = ref(false);
 
-    const itemPerPages = 10
-    let currentPage = ref(0)
+    const itemPerPages = 10;
+    let currentPage = ref(0);
 
     onBeforeMount(() => {
-      formations.value = props.formations
-    })
+      formations.value = props.formations;
+    });
 
     onUpdated(() => {
-      formations.value = props.formations
-    })
+      formations.value = props.formations;
+    });
 
     const currentPageFormations = computed(() => {
-      let start = currentPage.value * itemPerPages
-      let end = start + itemPerPages
-      return filteredFormations.value.slice(start, end)
-    })
+      let start = currentPage.value * itemPerPages;
+      let end = start + itemPerPages;
+      return filteredFormations.value.slice(start, end);
+    });
 
     const filteredFormations = computed(() => {
       return formations.value.filter((formation) => {
@@ -62,7 +64,7 @@ export default {
           typeof inputBorneInf.value != "undefined" ||
           typeof inputBorneSup.value != "undefined"
         ) {
-          currentPage.value = 0
+          currentPage.value = 0;
 
           return formation.hasOwnProperty("formationName") &&
             formation.formationName
@@ -81,23 +83,23 @@ export default {
             formation.hasOwnProperty("duration") &&
             formation.duration <= (inputBorneSup.value ?? 58)
             ? true
-            : false
+            : false;
         } else {
-          return true
+          return true;
         }
-      })
-    })
+      });
+    });
 
     function pageUp() {
-      let maxPage = Math.ceil(filteredFormations.value.length / itemPerPages)
+      let maxPage = Math.ceil(filteredFormations.value.length / itemPerPages);
       if (currentPage.value < maxPage - 1) {
-        currentPage.value++
+        currentPage.value++;
       }
     }
 
     function pageDown() {
       if (currentPage.value > 0) {
-        currentPage.value--
+        currentPage.value--;
       }
     }
 
@@ -114,9 +116,9 @@ export default {
       pageUp,
       pageDown,
       maploaded,
-    }
+    };
   },
-}
+};
 </script>
 
 <template>
@@ -137,9 +139,9 @@ export default {
             placeholder="Rechercher..."
           />
           <FontAwesomeIcon
-            alt=""
             class="mr-3 sm:mr-0 h-1/2 my-auto"
             icon="fa-magnifying-glass"
+            aria-hidden="true"
           />
         </div>
 
@@ -225,7 +227,7 @@ export default {
                 @change="
                   () => {
                     if (inputBorneInf > inputBorneSup) {
-                      inputBorneSup = inputBorneInf + 1
+                      inputBorneSup = inputBorneInf + 1;
                     }
                   }
                 "
@@ -248,7 +250,7 @@ export default {
                 @change="
                   () => {
                     if (inputBorneSup <= inputBorneInf) {
-                      inputBorneSup = inputBorneInf + 1
+                      inputBorneSup = inputBorneInf + 1;
                     }
                   }
                 "
@@ -270,9 +272,8 @@ export default {
             class="bg-space-cadet text-white p-5 border-2 rounded-xl text-md font-bold"
             @click="maploaded = !maploaded"
           >
-            <FontAwesomeIcon alt="" icon="fa-map-location-dot" />
-
-            <span class="ml-2">Load map</span>
+            <FontAwesomeIcon icon="fa-map-location-dot" aria-hidden="true"/>
+            <span class="ml-2">Afficher les formations sur la carte</span>
           </button>
         </div>
       </div>
@@ -287,9 +288,27 @@ export default {
       />
     </div>
 
-    <div>
-      <button @click="pageDown()">-</button>
-      <button @click="pageUp()">+</button>
+    <div class="flex justify-around items-center w-4/5 m-auto mt-5 mb-5">
+      <button
+        @click="pageDown()"
+        class="hover:bg-space-cadet hover:text-white flex font-black rounded-lg justify-between w-32 items-center border-2 border-space-cadet p-2"
+      >
+        <FontAwesomeIcon
+          icon="fa-circle-left"
+          class="text-xl"
+          aria-hidden="true"
+        />Précedent
+      </button>
+      <button
+        @click="pageUp()"
+        class="hover:bg-space-cadet hover:text-white flex font-black rounded-lg justify-between w-32 items-center border-2 border-space-cadet p-2"
+      >
+        Suivant<FontAwesomeIcon
+          icon="fa-circle-right"
+          class="text-xl"
+          aria-hidden="true"
+        />
+      </button>
     </div>
   </main>
 </template>

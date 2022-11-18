@@ -8,30 +8,27 @@
     </h1>
 
     <button
-      aria-label="Panier"
       class="w-fit px-3 py-3 sm:px-5 sm:py-2 rounded-xl bg-white text-black text-2xl flex items-center justify-center cursor-pointer"
       @click="toggleModal"
     >
-      <FontAwesomeIcon alt="" icon="fa-cart-shopping" />
-      <span class="md:ml-2 hidden sm:flex text-sm">mon panier</span>
+      <FontAwesomeIcon icon="fa-cart-shopping" aria-hidden="true" />
+      <span class="md:ml-2 hidden sm:flex text-sm">Mon Panier</span>
     </button>
 
     <CartModal :modalActive="modalActive" @close-modal="closeModal">
-      <div
-        class="text-xs sm:text-sm md:text-base flex justify-between items-center w-4/5"
-      >
+      <div class="text-xs sm:text-sm md:text-base flex justify-between px-7 pb-5 items-center w-full">
         <a
           v-show="!cartContent()"
           :href="sendMail()"
-          class="text-white mt-8 h-16 sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral print:hidden"
-          >Demander un devis par mail</a
+          class="text-white mt-8 h-16 sm:h-14 md:h-16 w-1/3 grid place-items-center bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral print:hidden"
+          >Mon devis par email</a
         >
         <button
           v-show="!cartContent()"
           @click="generateReport()"
-          class="text-white mt-8 h-16 sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral print:hidden"
+          class="text-white mt-8 h-16 grid place-items-center sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral print:hidden"
         >
-          Exporter en PDF
+          Export PDF
         </button>
       </div>
       <p class="mt-5" v-show="cartContent()">Votre panier est vide !</p>
@@ -39,6 +36,7 @@
         Récapitulatif des formations sélectionnées
       </h1>
       <table
+        aria-describedby="Répartition de différentes informations à propos des formations misent dans le panier."
         v-if="!cartContent()"
         class="m-2 text-xs md:text-base w-4/5 table-auto"
         media="print"
@@ -95,13 +93,13 @@
             >
               {{ formation.duration }}
             </td>
-            <td
+            <tds
               class="p-2 border-2 border-space-cadet hidden print:table-cell lg:table-cell"
             >
               {{ formation.structLoc }}
-            </td>
+            </tds>
             <td
-              class="p-2 border-2 print:hidden border-space-cadet hover:bg-orange cursor-pointer"
+              class="p-2 border-2 print:hidden border-space-cadet hover:bg-space-cadet hover:text-white cursor-pointer"
               @click="deleteFormation(formation)"
             >
               Supprimer
@@ -114,13 +112,13 @@
 </template>
 
 <script>
-import { ref, defineAsyncComponent } from "vue"
+import { ref, defineAsyncComponent } from "vue";
 
 const CartModal = defineAsyncComponent({
   loader: () => import("../components/CartModal.vue"),
-})
+});
 
-import { useFormationStore } from "../stores/formations"
+import { useFormationStore } from "../stores/formations";
 
 export default {
   name: "HeaderInformation",
@@ -128,42 +126,42 @@ export default {
     CartModal,
   },
   setup() {
-    const cartStore = useFormationStore()
+    const cartStore = useFormationStore();
 
-    const modalActive = ref(false)
+    const modalActive = ref(false);
 
-    const cart = cartStore.cart
+    const cart = cartStore.cart;
 
     const toggleModal = () => {
-      modalActive.value = !modalActive.value
-    }
+      modalActive.value = !modalActive.value;
+    };
 
     const closeModal = () => {
-      modalActive.value = false
-    }
+      modalActive.value = false;
+    };
 
     function cartContent() {
-      return cart.length == 0 ? true : false
+      return cart.length == 0 ? true : false;
     }
 
     function generateReport() {
-      window.print()
+      window.print();
     }
 
     function deleteFormation(formation) {
-      cartStore.removeFormation(formation)
+      cartStore.removeFormation(formation);
     }
 
     function sendMail() {
-      const objet = `Demande de devis pour ${cart.length} formation(s)`
+      const objet = `Demande de devis pour ${cart.length} formation(s)`;
       let message =
-        "Bonjour, \n Je souhaiterai avoir un devis pour les formations suivantes :\n"
+        "Bonjour, \n Je souhaiterai avoir un devis pour les formations suivantes :\n";
       for (let i = 0; i < cart.length; i++) {
-        message += `- Formation par ${cart[i].organismeName} d'une durée de ${cart[i].duration} jour(s)\n`
+        message += `- Formation par ${cart[i].organismeName} d'une durée de ${cart[i].duration} jour(s)\n`;
       }
       return `mailto:design4green@etik.com?subject=${encodeURIComponent(
         objet
-      )}&body=${encodeURIComponent(message)}`
+      )}&body=${encodeURIComponent(message)}`;
     }
 
     return {
@@ -175,7 +173,7 @@ export default {
       sendMail,
       closeModal,
       generateReport,
-    }
+    };
   },
-}
+};
 </script>
