@@ -9,6 +9,7 @@ import {
 
 import HeaderInformation from "../components/HeaderInformation.vue"
 import FormationCard from "../components/FormationCard.vue"
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 
 const MapFormations = defineAsyncComponent({
   loader: () => import("../components/MapFormations.vue"),
@@ -20,7 +21,8 @@ export default {
     HeaderInformation,
     MapFormations,
     FormationCard,
-  },
+    FontAwesomeIcon
+},
   props: {
     formations: Object,
   },
@@ -275,7 +277,7 @@ export default {
 							icon="fa-map-location-dot"
 						/>
 
-            <span class="ml-2">Load map</span>
+            <span class="ml-2">Afficher les formations sur la carte</span>
           </button>
         </div>
       </div>
@@ -290,9 +292,9 @@ export default {
       />
     </div>
 
-    <div>
-      <button @click="pageDown()">-</button>
-      <button @click="pageUp()">+</button>
+    <div class="flex justify-around items-center w-4/5 m-auto mt-5 mb-5">
+      <button @click="pageDown()" class="hover:bg-space-cadet hover:text-white flex font-black rounded-lg justify-between w-32 items-center border-2 border-space-cadet p-2"><FontAwesomeIcon icon="fa-circle-left" class="text-xl"/>Précedent</button>
+      <button @click="pageUp()" class="hover:bg-space-cadet hover:text-white flex font-black rounded-lg justify-between w-32 items-center border-2 border-space-cadet p-2">Suivant<FontAwesomeIcon icon="fa-circle-right" class="text-xl"/></button>
     </div>
   </main>
 </template>
