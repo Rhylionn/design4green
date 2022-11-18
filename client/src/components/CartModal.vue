@@ -12,12 +12,12 @@
         <Transition name="modal-inner">
           <div
             v-if="modalActive"
-            class="p-4 w-full bg-white self-start mt-32 max-w-screen-md flex items-center justify-center flex-col border-2 border-black rounded-md z-50"
+            class="p-4 w-full bg-white self-start mt-32 max-w-screen-md flex items-center justify-center print:border-none flex-col border-2 border-black rounded-md z-50"
           >
             <slot />
             <button
               aria-label="Fermer"
-              class="text-white mt-8 p-2 bg-space-cadet rounded-lg cursor-pointer border-2 border-space-cadet hover:bg-black-coral"
+              class="text-white print:hidden mt-8 p-2 bg-space-cadet rounded-lg cursor-pointer border-2 border-space-cadet hover:bg-black-coral"
               @click="$emit('close-modal')" @keypress.enter="$emit('close-modal')"
             >
               Fermer
@@ -53,6 +53,7 @@ export default {
     const close = () => {
       emit("close-modal")
     }
+
     return { close, cart }
   },
 }

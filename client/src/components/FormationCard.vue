@@ -20,26 +20,39 @@
           }"
         >
           <FontAwesomeIcon
+						alt="Ajouter au panier"
             icon="fa-circle-plus"
             class="h-5"
             v-if="!isSelected"
           />
           <FontAwesomeIcon
+						alt="Retirer du panier"
             icon="fa-circle-minus"
             class="h-5"
             v-if="isSelected"
           />
         </div>
 
-        <h1 class="pl-5 pr-5 w-4/5 sm:w-[90%] text-center">{{ formationName() }}</h1>
+        <h3 class="pl-5 pr-5 w-4/5 text-md sm:text-lg md:text-xl sm:w-[90%] text-center">{{ formationName() }}</h3>
 
         <div
           class="cursor-pointer border-l-2 h-16 sm:h-24 lg:h-16 w-10 sm:w-16 flex justify-center items-center border-space-cadet"
           :class="{ 'border-white': isHidden }"
           @click="toggle()"
         >
-          <FontAwesomeIcon icon="fa-caret-down" v-if="!isHidden" class="h-5" />
-          <FontAwesomeIcon icon="fa-caret-up" v-if="isHidden" class="h-5" />
+          <FontAwesomeIcon
+						alt="Afficher les détails de la formation."
+						icon="fa-caret-down" 
+						v-if="!isHidden" 
+						class="h-5" 
+					/>
+
+          <FontAwesomeIcon
+						alt="Masquer les détails de la formation."
+						icon="fa-caret-up"
+						v-if="isHidden"
+						class="h-5"
+					/>
         </div>
       </div>
       <div

@@ -140,6 +140,7 @@ export default {
             placeholder="Rechercher..."
           />
           <FontAwesomeIcon
+						alt=""
             class="mr-3 sm:mr-0 h-1/2 my-auto"
             icon="fa-magnifying-glass"
           />
@@ -272,15 +273,21 @@ export default {
             class="bg-space-cadet text-white p-5 border-2 rounded-xl text-md font-bold"
             @click="maploaded = !maploaded"
           >
-            <FontAwesomeIcon icon="fa-map-location-dot" />
+            <FontAwesomeIcon
+							alt=""
+							icon="fa-map-location-dot"
+						/>
 
             <span class="ml-2">Load map</span>
           </button>
         </div>
       </div>
 
+			<h2 class="text-3xl text-center">Liste des formations</h2>
+
       <FormationCard
         v-for="(formation, index) in currentPageFormations"
+				class="print:hidden"
         :key="index"
         :formation="formation"
         :cart="cart"
