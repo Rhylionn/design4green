@@ -8,12 +8,11 @@
     </h1>
 
     <button
-      aria-label="Panier"
       class="w-fit px-3 py-3 sm:px-5 sm:py-2 rounded-xl bg-white text-black text-2xl flex items-center justify-center cursor-pointer"
       @click="toggleModal"
     >
-      <FontAwesomeIcon alt="" icon="fa-cart-shopping" />
-      <span class="md:ml-2 hidden sm:flex text-sm">mon panier</span>
+      <FontAwesomeIcon icon="fa-cart-shopping" aria-hidden="true" />
+      <span class="md:ml-2 hidden sm:flex text-sm">Mon Panier</span>
     </button>
 
     <CartModal :modalActive="modalActive" @close-modal="closeModal">
@@ -39,6 +38,7 @@
         Récapitulatif des formations sélectionnées
       </h1>
       <table
+        aria-describedby="Répartition de différentes informations à propos des formations misent dans le panier."
         v-if="!cartContent()"
         class="m-2 text-xs md:text-base w-4/5 table-auto"
         media="print"
@@ -114,13 +114,13 @@
 </template>
 
 <script>
-import { ref, defineAsyncComponent } from "vue"
+import { ref, defineAsyncComponent } from "vue";
 
 const CartModal = defineAsyncComponent({
   loader: () => import("../components/CartModal.vue"),
-})
+});
 
-import { useFormationStore } from "../stores/formations"
+import { useFormationStore } from "../stores/formations";
 
 export default {
   name: "HeaderInformation",
@@ -128,42 +128,42 @@ export default {
     CartModal,
   },
   setup() {
-    const cartStore = useFormationStore()
+    const cartStore = useFormationStore();
 
-    const modalActive = ref(false)
+    const modalActive = ref(false);
 
-    const cart = cartStore.cart
+    const cart = cartStore.cart;
 
     const toggleModal = () => {
-      modalActive.value = !modalActive.value
-    }
+      modalActive.value = !modalActive.value;
+    };
 
     const closeModal = () => {
-      modalActive.value = false
-    }
+      modalActive.value = false;
+    };
 
     function cartContent() {
-      return cart.length == 0 ? true : false
+      return cart.length == 0 ? true : false;
     }
 
     function generateReport() {
-      window.print()
+      window.print();
     }
 
     function deleteFormation(formation) {
-      cartStore.removeFormation(formation)
+      cartStore.removeFormation(formation);
     }
 
     function sendMail() {
-      const objet = `Demande de devis pour ${cart.length} formation(s)`
+      const objet = `Demande de devis pour ${cart.length} formation(s)`;
       let message =
-        "Bonjour, \n Je souhaiterai avoir un devis pour les formations suivantes :\n"
+        "Bonjour, \n Je souhaiterai avoir un devis pour les formations suivantes :\n";
       for (let i = 0; i < cart.length; i++) {
-        message += `- Formation par ${cart[i].organismeName} d'une durée de ${cart[i].duration} jour(s)\n`
+        message += `- Formation par ${cart[i].organismeName} d'une durée de ${cart[i].duration} jour(s)\n`;
       }
       return `mailto:design4green@etik.com?subject=${encodeURIComponent(
         objet
-      )}&body=${encodeURIComponent(message)}`
+      )}&body=${encodeURIComponent(message)}`;
     }
 
     return {
@@ -175,7 +175,7 @@ export default {
       sendMail,
       closeModal,
       generateReport,
-    }
+    };
   },
-}
+};
 </script>
