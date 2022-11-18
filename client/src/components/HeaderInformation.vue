@@ -17,21 +17,19 @@
     </button>
 
     <CartModal :modalActive="modalActive" @close-modal="closeModal">
-      <div
-        class="text-xs sm:text-sm md:text-base flex justify-between items-center w-4/5"
-      >
+      <div class="text-xs sm:text-sm md:text-base flex justify-between px-7 pb-5 items-center w-full">
         <a
           v-show="!cartContent()"
           :href="sendMail()"
-          class="text-white mt-8 h-16 sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral print:hidden"
-          >Demander un devis par mail</a
+          class="text-white mt-8 h-16 sm:h-14 md:h-16 w-1/3 grid place-items-center bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral print:hidden"
+          >Mon devis par email</a
         >
         <button
           v-show="!cartContent()"
           @click="generateReport()"
-          class="text-white mt-8 h-16 sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral print:hidden"
+          class="text-white mt-8 h-16 grid place-items-center sm:h-14 md:h-16 p-2 w-1/3 bg-space-cadet rounded-lg cursor-pointer hover:bg-black-coral print:hidden"
         >
-          Exporter en PDF
+          Export PDF
         </button>
       </div>
       <p class="mt-5" v-show="cartContent()">Votre panier est vide !</p>
@@ -95,13 +93,13 @@
             >
               {{ formation.duration }}
             </td>
-            <td
+            <tds
               class="p-2 border-2 border-space-cadet hidden print:table-cell lg:table-cell"
             >
               {{ formation.structLoc }}
-            </td>
+            </tds>
             <td
-              class="p-2 border-2 print:hidden border-space-cadet hover:bg-orange cursor-pointer"
+              class="p-2 border-2 print:hidden border-space-cadet hover:bg-space-cadet hover:text-white cursor-pointer"
               @click="deleteFormation(formation)"
             >
               Supprimer
