@@ -93,8 +93,8 @@
 </template>
 
 <script>
-import { ref, onUpdated } from "vue";
-import { useFormationStore } from "../stores/formations";
+import { ref, onUpdated, watch } from "vue"
+import { useFormationStore } from "../stores/formations"
 
 export default {
   name: "FormationCard",
@@ -118,11 +118,14 @@ export default {
       isHidden.value = !isHidden.value;
     }
 
+		function checkSelected() {
+			return cart.getIndex(currentFormation.value) < 0 ? false : true
+		}
+
     onUpdated(() => {
-      currentFormation.value = props.formation;
-      isSelected.value =
-        cart.getIndex(currentFormation.value) < 0 ? false : true;
-    });
+      currentFormation.value = props.formation
+      isSelected.value = checkSelected()
+    })
 
     function select() {
       isSelected.value = !isSelected.value;
@@ -140,6 +143,10 @@ export default {
         return "Formation";
       }
     }
+
+		watch(cart.cart, () => {
+			isSelected.value = checkSelected()
+		})
 
     return {
       currentFormation,
